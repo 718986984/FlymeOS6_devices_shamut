@@ -477,6 +477,11 @@
 /sys/devices/system/cpu/cpu0/rq-stats(/.*)?                     u:object_r:sysfs_rqstats:s0
 /sys/module/cpu_boost/parameters(/.*)?                          u:object_r:sysfs_cpuboost:s0
 
+/dev/socket/flymed      u:object_r:flymed_socket:s0
+/system/bin/flymed      u:object_r:flymed_exec:s0
+/data/system/users/[0-9]+/lock_wallpaper		u:object_r:wallpaper_file:s0
+/data/system/users/[0-9]+/smart_wallpaper_target		u:object_r:wallpaper_file:s0
+
 /sys/bus/platform/drivers/xhci_msm_hsic(/.*)?            u:object_r:sysfs_xhci_msm_hsic:s0
 /sys/devices/msm_hsic_host/host_ready                    u:object_r:sysfs_msm_hsic_host:s0
 

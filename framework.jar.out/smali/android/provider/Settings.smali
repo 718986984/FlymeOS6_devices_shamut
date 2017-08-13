@@ -6,6 +6,7 @@
 # annotations
 .annotation system Ldalvik/annotation/MemberClasses;
     value = {
+        Landroid/provider/Settings$ShareList;,
         Landroid/provider/Settings$SettingNotFoundException;,
         Landroid/provider/Settings$NameValueTable;,
         Landroid/provider/Settings$NameValueCache;,
@@ -559,34 +560,27 @@
 
     check-cast v0, Landroid/app/AppOpsManager;
 
-    .line 8933
     .local v0, "appOpsMgr":Landroid/app/AppOpsManager;
     const/4 v3, 0x3
 
-    .line 8934
     .local v3, "mode":I
     if-eqz p6, :cond_2
 
-    .line 8935
     invoke-virtual {v0, p4, p1, p2}, Landroid/app/AppOpsManager;->noteOpNoThrow(IILjava/lang/String;)I
 
     move-result v3
 
-    .line 8940
     :goto_0
     packed-switch v3, :pswitch_data_0
 
-    .line 8958
     :cond_1
     :pswitch_0
-    if-nez p3, :cond_4
+    if-nez p3, :cond_5
 
-    .line 8959
     const/4 v5, 0x0
 
     return v5
 
-    .line 8937
     :cond_2
     invoke-virtual {v0, p4, p1, p2}, Landroid/app/AppOpsManager;->checkOpNoThrow(IILjava/lang/String;)I
 
@@ -602,6 +596,17 @@
 
     .line 8948
     :pswitch_2
+    invoke-static/range {p4 .. p4}, Landroid/provider/Settings;->isFlymePermissionGranted(I)Z
+
+    move-result v5
+
+    if-eqz v5, :cond_3
+
+    const/4 v5, 0x1
+
+    return v5
+
+    :cond_3
     const/4 v5, 0x0
 
     array-length v6, p5
@@ -617,48 +622,40 @@
 
     move-result v7
 
-    if-nez v7, :cond_3
+    if-nez v7, :cond_4
 
-    .line 8952
     const/4 v5, 0x1
 
     return v5
 
-    .line 8948
-    :cond_3
+    :cond_4
     add-int/lit8 v5, v5, 0x1
 
     goto :goto_1
 
-    .line 8964
     .end local v4    # "permission":Ljava/lang/String;
-    :cond_4
+    :cond_5
     new-instance v1, Ljava/lang/StringBuilder;
 
     invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
 
-    .line 8965
     .local v1, "exceptionMessage":Ljava/lang/StringBuilder;
     invoke-virtual {v1, p2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 8966
-    const-string/jumbo v5, " was not granted "
+    const-string v5, " was not granted "
 
     invoke-virtual {v1, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 8967
     array-length v5, p5
 
     const/4 v6, 0x1
 
-    if-le v5, v6, :cond_5
+    if-le v5, v6, :cond_6
 
-    .line 8968
-    const-string/jumbo v5, " either of these permissions: "
+    const-string v5, " either of these permissions: "
 
     invoke-virtual {v1, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 8972
     :goto_2
     const/4 v2, 0x0
 
@@ -666,48 +663,42 @@
     :goto_3
     array-length v5, p5
 
-    if-ge v2, v5, :cond_7
+    if-ge v2, v5, :cond_8
 
-    .line 8973
     aget-object v5, p5, v2
 
     invoke-virtual {v1, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 8974
     array-length v5, p5
 
     add-int/lit8 v5, v5, -0x1
 
-    if-ne v2, v5, :cond_6
+    if-ne v2, v5, :cond_7
 
-    const-string/jumbo v5, "."
+    const-string v5, "."
 
     :goto_4
     invoke-virtual {v1, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
-    .line 8972
     add-int/lit8 v2, v2, 0x1
 
     goto :goto_3
 
-    .line 8970
     .end local v2    # "i":I
-    :cond_5
-    const-string/jumbo v5, " this permission: "
+    :cond_6
+    const-string v5, " this permission: "
 
     invoke-virtual {v1, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
 
     goto :goto_2
 
-    .line 8974
     .restart local v2    # "i":I
-    :cond_6
-    const-string/jumbo v5, ", "
+    :cond_7
+    const-string v5, ", "
 
     goto :goto_4
 
-    .line 8977
-    :cond_7
+    :cond_8
     new-instance v5, Ljava/lang/SecurityException;
 
     invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
@@ -759,6 +750,31 @@
     invoke-static/range {v0 .. v6}, Landroid/provider/Settings;->isCallingPackageAllowedToPerformAppOpsProtectedOperation(Landroid/content/Context;ILjava/lang/String;ZI[Ljava/lang/String;Z)Z
 
     move-result v0
+
+    return v0
+.end method
+
+.method private static isFlymePermissionGranted(I)Z
+    .locals 1
+    .param p0, "appOpsOpCode"    # I
+
+    .prologue
+    const/16 v0, 0x17
+
+    if-ne p0, v0, :cond_0
+
+    invoke-static {v0}, Lmeizu/security/FlymePermissionManager;->isFlymePermissionGranted(I)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_0
+
+    const/4 v0, 0x1
+
+    return v0
+
+    :cond_0
+    const/4 v0, 0x0
 
     return v0
 .end method

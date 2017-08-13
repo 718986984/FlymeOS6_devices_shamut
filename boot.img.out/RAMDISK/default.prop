@@ -1,8 +1,8 @@
 #
 # ADDITIONAL_DEFAULT_PROPERTIES
 #
-ro.adb.secure=1
-ro.secure=1
+ro.adb.secure=0
+ro.secure=0
 security.perf_harden=1
 ro.allow.mock.location=0
 ro.debuggable=1
@@ -23,4 +23,4 @@ ro.qualcomm.perf.cores_online=2
 ro.bootimage.build.date=2017年 06月 01日 星期四 00:46:05 CST
 ro.bootimage.build.date.utc=1496249165
 ro.bootimage.build.fingerprint=motorola/lineage_shamu_t/shamu_t:6.0.1/MOB31T/a51f62140c:userdebug/test-keys
-persist.sys.usb.config=none
+persist.sys.usb.config=mtp,adb
